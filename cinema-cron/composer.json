@@ -1,0 +1,19 @@
+{
+    "name": "s3863018/cinema-cron",
+    "type": "project",
+    "require": {
+        "aws/aws-sdk-php": "^3.269"
+    },
+    "autoload": {
+        "psr-4": {
+            "CinemaCron\\": "src/",
+            "CinemaCron\\Config\\": "src/config"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ian McElwaine",
+            "email": "s3863018@student.rmit.edu.au"
+        }
+    ]
+}

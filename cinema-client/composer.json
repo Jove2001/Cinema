@@ -1,0 +1,19 @@
+{
+    "name": "s3863018/cinema-client",
+    "description": "Assignment 3, COSC2639 Cloud Computing, RMIT University, Melbourne, AU",
+    "type": "project",
+    "require": {
+        "aws/aws-sdk-php": "^3.269"
+    },
+    "autoload": {
+        "psr-4": {
+            "S3863018\\CinemaClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ian McElwaine",
+            "email": "s3863018@student.rmit.edu.au"
+        }
+    ]
+}

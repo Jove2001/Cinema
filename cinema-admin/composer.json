@@ -1,0 +1,23 @@
+{
+    "name": "s3863018/cinema-admin",
+    "description": "Assignment 3, COSC2639 Cloud Computing, RMIT University, Melbourne, AU",
+    "type": "project",
+    "require": {
+        "aws/aws-sdk-php": "^3.269"
+    },
+    "autoload": {
+        "psr-4": {
+            "CinemaAdmin\\": "src/",
+            "CinemaAdmin\\Config\\": "src/config",
+            "CinemaAdmin\\Model\\": "src/model",
+            "CinemaAdmin\\View\\": "src/view",
+            "CinemaAdmin\\Controller\\": "src/controller"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ian McElwaine",
+            "email": "s3863018@student.rmit.edu.au"
+        }
+    ]
+}

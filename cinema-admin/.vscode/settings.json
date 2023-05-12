@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "cinema.cgpisnjxybda.us-east-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Cinema-rds",
+            "database": "cinema",
+            "username": "cinema",
+            "password": "C1i1n1e1m1a1"
+        }
+    ]
+}
