@@ -8,7 +8,6 @@ date_default_timezone_set(\CinemaCron\Config\Config::TIME_ZONE);
 // Prevent this process from timing out
 set_time_limit(300);
 
-// Get movie data
 // Get the connection
 $pdo = (new \CinemaCron\MySQLConnection())->connect();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
