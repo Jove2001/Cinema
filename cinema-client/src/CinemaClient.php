@@ -59,11 +59,10 @@ class CinemaClient
 
         // Catch unexpected exceptions and notify user
         catch (Exception $e) {
-            global $errorMessage;
-            $errorMessage = $e->getMessage();
             $route = new stdClass();
             $route->Title = "Something went wrong";
             $route->View = __DIR__ . '/view/views/error.view.php';
+            $route->ErrorMessage = $e->getMessage();
         }
 
         // Load the main view

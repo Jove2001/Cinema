@@ -84,7 +84,8 @@ class BookingController
             [
                 'date' => $_POST['date'],
                 'email' => $_POST['email'],
-                'id' => $_POST['id']
+                'id' => $_POST['id'],
+                'tickets' => $_POST['tickets']
             ]
         );
 
@@ -98,10 +99,9 @@ class BookingController
             $route->Title = "Booking confirmed";
             $route->View = $_SERVER['DOCUMENT_ROOT'] . '/src/view/views/booking-confirmed.view.php';
         } catch (DynamoDbException $e) {
-            global $errorMessage;
-            $errorMessage = $e->getMessage();
             $route->Title = "Something went wrong";
-            $route->View = __DIR__ . '/view/views/error.view.php';
+            $route->View = $_SERVER['DOCUMENT_ROOT'] . '/src/view/views/error.view.php';
+            $route->ErrorMessage = $e->getMessage();
         }
         return $route;
     }

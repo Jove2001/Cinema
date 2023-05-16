@@ -63,7 +63,7 @@ as assessment work for COSC2639 Cloud Computing
 <body>
     <div class='container-fluid row-gap-3'>
         <div class='row'>
-            <img src='/media/cinema-header.png'>
+            <img src='/media/cinema-header.png' style="max-width: 100%; height: auto;">
         </div>
     </div>
     <nav class="navbar navbar-expand-md bg-body-tertiary nav-pills">
