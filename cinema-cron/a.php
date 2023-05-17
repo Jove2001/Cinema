@@ -17,11 +17,25 @@ date_default_timezone_set(Config::TIME_ZONE);
 set_time_limit(300);
 
 $dynamoDb = DynamoDbConnection::connect();
-$marshaler = new Marshaler();
 
-$a = $dynamoDb->scan(
+$today = date_create('now');
+date_sub($today, date_interval_create_from_date_string("1 days"));
+$date_to_delete = date_format($today, "Y-m-d");
+// echo $date_to_delete;
+// var_dump($date_to_delete);
+// exit;
+
+$key = [
+    'Item' => [
+        'date' => [
+            'S' => $date_to_delete
+        ]
+    ]
+];
+
+$dynamoDb->deleteItem(
     [
+        'Key' => $key['Item'],
         'TableName' => 'Sessions'
     ]
 );
-var_dump($a['Items'][0]);

@@ -6,7 +6,6 @@ use CinemaClient\Controller\DynamoDbConnection;
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
 use stdClass;
-use PDO;
 
 /**
  * Contains functions for managing bookings [1][2]
@@ -19,66 +18,23 @@ use PDO;
  * It has been prepared for submission to RMIT University
  * as assessment work for COSC2639 Cloud Computing
  */
-class BookingController implements BackEndInterface
+class BookingController
 {
-
-    public static function get_sessions() {
-
+    /**
+     * Get all sessions
+     * @return array of sessions
+     */
+    public static function get_sessions()
+    {
         $dynamoDb = (new DynamoDbConnection())->connect();
-        
+
         $results = $dynamoDb->scan(
             [
                 'TableName' => 'Sessions'
             ]
         );
-
+        
         return $results['Items'];
-    }
-
-    /**
-     * Get all future sessions
-     * @return array of sessions
-     */
-    public static function get_sessions_old()
-    {
-        // Get the connection
-        $pdo = (new MySQLConnection())->connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $sql = <<<SQL
-            SELECT Sessions.date, Movies.*
-            FROM Sessions
-            JOIN Movies
-            ON Sessions.id = Movies.id
-            WHERE Sessions.date >= CURDATE()
-        SQL;
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
-        $sessions = $stmt->fetchAll();
-
-        $stmt = $pdo->prepare("SELECT * FROM Genres");
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
-        $genre_data = $stmt->fetchAll();
-
-        for ($i = 0; $i < sizeof($sessions); $i++) {
-            $genres = [];
-            if (isset($sessions[$i]['genre_ids'])) {
-                $genre_ids = json_decode($sessions[$i]['genre_ids']);
-                for ($j = 0; $j < sizeof($genre_ids); $j++) {
-                    for ($k = 0; $k < sizeof($genre_data); $k++) {
-                        if ($genre_data[$k]['id'] == $genre_ids[$j]) {
-                            $genres[] = $genre_data[$k]['name'];
-                            break;
-                        }
-                    }
-                }
-                $sessions[$i]['genres'] = $genres;
-            }
-        }
-        return $sessions;
     }
 
     public static function book_ticket()
@@ -89,7 +45,7 @@ class BookingController implements BackEndInterface
         return $route;
     }
 
-    static function confirm_booking($data)
+    static function confirm_booking()
     {
         $route = new stdClass();
         $dynamoDb = DynamoDbConnection::connect();
