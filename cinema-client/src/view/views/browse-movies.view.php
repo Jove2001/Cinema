@@ -2,16 +2,25 @@
     <tbody>
         <?php
         $results = \CinemaClient\Controller\BookingController::get_sessions();
+
         for ($i = 0; $i < sizeof($results); $i++) {
-            $title = $results[$i]['title'];
-            if (is_null($results[$i]['poster_path']))
+            $title = $results[$i]['title']["S"];
+            if (is_null($results[$i]['poster_path']["S"]))
                 $poster_path = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';
             else
-                $poster_path = 'https://' . \CinemaClient\Config\Config::AWS_BUCKET . '.s3.amazonaws.com' . $results[$i]['poster_path'];
-            $date = date('d M Y', strtotime($results[$i]['date']));
-            $overview = $results[$i]['overview'];
-            $genres = implode(', ', $results[$i]['genres']);
+                $poster_path = 'https://' . \CinemaClient\Config\Config::AWS_BUCKET . '.s3.amazonaws.com' . $results[$i]['poster_path']["S"];
+            $date = date('d M Y', strtotime($results[$i]['date']["S"]));
+            $overview = $results[$i]['overview']["S"];
 
+            $genre = array();
+            for ($j = 0; $j < sizeof($results[$i]['genres']["L"]); $j++) {
+                $genre[] = $results[$i]['genres']["L"][$j]["S"];
+            }
+            $genres = implode(', ', $genre);
+
+            // echo '<pre>';
+            // var_dump($genres);
+            // exit;
             echo <<<HTML
             <tr>
                 <td class="align-middle">
@@ -24,11 +33,11 @@
                 <td class="align-middle">
                     <form action="/" method="POST">
                     <input type="hidden" name="page" value="book-ticket">
-                        <input type="hidden" name="date" value="{$results[$i]['date']}">
-                        <input type="hidden" name="title" value="{$results[$i]['title']}">
-                        <input type="hidden" name="backdrop_path" value="{$results[$i]['backdrop_path']}">
+                        <input type="hidden" name="date" value="{$results[$i]['date']['S']}">
+                        <input type="hidden" name="title" value="{$results[$i]['title']['S']}">
+                        <input type="hidden" name="backdrop_path" value="{$results[$i]['backdrop_path']['S']}">
                         <input type="hidden" name="poster_path" value="$poster_path">
-                        <input type="hidden" name="id" value="{$results[$i]['id']}">
+                        <input type="hidden" name="id" value="{$results[$i]['id']['N']}">
                         <button type="submit" class="btn btn-primary">Book now</button>
                     </form>
                 </td>

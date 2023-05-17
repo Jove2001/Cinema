@@ -21,11 +21,25 @@ use PDO;
  */
 class BookingController implements BackEndInterface
 {
+
+    public static function get_sessions() {
+
+        $dynamoDb = (new DynamoDbConnection())->connect();
+        
+        $results = $dynamoDb->scan(
+            [
+                'TableName' => 'Sessions'
+            ]
+        );
+
+        return $results['Items'];
+    }
+
     /**
      * Get all future sessions
      * @return array of sessions
      */
-    public static function get_sessions()
+    public static function get_sessions_old()
     {
         // Get the connection
         $pdo = (new MySQLConnection())->connect();
