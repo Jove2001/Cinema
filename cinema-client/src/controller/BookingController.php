@@ -19,7 +19,7 @@ use PDO;
  * It has been prepared for submission to RMIT University
  * as assessment work for COSC2639 Cloud Computing
  */
-class BookingController
+class BookingController implements BackEndInterface
 {
     /**
      * Get all future sessions
@@ -67,7 +67,7 @@ class BookingController
         return $sessions;
     }
 
-    static function book_ticket()
+    public static function book_ticket()
     {
         $route = new stdClass();
         $route->Title = "Book tickets";
@@ -75,7 +75,7 @@ class BookingController
         return $route;
     }
 
-    static function confirm_booking()
+    static function confirm_booking($data)
     {
         $route = new stdClass();
         $dynamoDb = DynamoDbConnection::connect();

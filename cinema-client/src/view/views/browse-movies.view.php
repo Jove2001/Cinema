@@ -7,7 +7,7 @@
             if (is_null($results[$i]['poster_path']))
                 $poster_path = 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';
             else
-                $poster_path = "https://image.tmdb.org/t/p/w154/" . $results[$i]['poster_path'];
+                $poster_path = 'https://' . \CinemaClient\Config\Config::AWS_BUCKET . '.s3.amazonaws.com' . $results[$i]['poster_path'];
             $date = date('d M Y', strtotime($results[$i]['date']));
             $overview = $results[$i]['overview'];
             $genres = implode(', ', $results[$i]['genres']);

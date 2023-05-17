@@ -29,7 +29,7 @@ class PostRouter
                 return BookingController::book_ticket();
                 break;
             case 'confirm-booking':
-                return BookingController::confirm_booking();
+                return BookingController::confirm_booking($_POST);
                 break;
             default:
                 throw new BadRequestException('The ' . $_POST['page'] . ' page controller was not found');

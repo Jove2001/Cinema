@@ -3,9 +3,9 @@
 namespace CinemaCron\Config;
 
 /**
- * Config settings for MusicStream application
+ * Config settings for CinemaCron application
  * 
- * Config.php 04/04/2023
+ * Config.php 17/05/2023
  *
  * Copyright (c) 2023 Ian McElwaine s3863018@rmit.student.edu.au
  *

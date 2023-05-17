@@ -36,7 +36,7 @@ class Config
     /**
      * AWS S3 bucket for MusicStream application
      */
-    const AWS_BUCKET = 's3863018-musicstream';
+    const AWS_BUCKET = 's3863018-movie-posters';
 
     /**
      *  MySQL server settings
