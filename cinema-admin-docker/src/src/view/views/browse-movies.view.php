@@ -1,4 +1,4 @@
-<div class='col-sm-6'>
+<div class='col'>
     <h1 class="display-1">Browse Movies</h1>
     <h3>Movies available</h3>
     <table class="table table-striped table-dark">

@@ -2,9 +2,7 @@
 
 namespace CinemaClient\Controller;
 
-use CinemaClient\Controller\DynamoDbConnection;
-use Aws\DynamoDb\Exception\DynamoDbException;
-use Aws\DynamoDb\Marshaler;
+use CinemaClient\Config\Config;
 use stdClass;
 
 /**
@@ -26,15 +24,8 @@ class BookingController
      */
     public static function get_sessions()
     {
-        $dynamoDb = (new DynamoDbConnection())->connect();
-
-        $results = $dynamoDb->scan(
-            [
-                'TableName' => 'Sessions'
-            ]
-        );
-        
-        return $results['Items'];
+        $sessions = json_decode(file_get_contents(Config::GET_SESSIONS), true);
+        return $sessions['Items'];
     }
 
     public static function book_ticket()
@@ -48,9 +39,8 @@ class BookingController
     static function confirm_booking()
     {
         $route = new stdClass();
-        $dynamoDb = DynamoDbConnection::connect();
-        $marshaler = new Marshaler();
-        $booking = $marshaler->marshalItem(
+
+        $params = http_build_query(
             [
                 'date' => $_POST['date'],
                 'email' => $_POST['email'],
@@ -59,20 +49,11 @@ class BookingController
             ]
         );
 
-        $params = [
-            'TableName' => 'Bookings',
-            'Item' => $booking
-        ];
+        $result = file_get_contents(Config::MAKE_BOOKING . "?" . $params);
 
-        try {
-            $dynamoDb->putItem($params);
-            $route->Title = "Booking confirmed";
-            $route->View = $_SERVER['DOCUMENT_ROOT'] . '/src/view/views/booking-confirmed.view.php';
-        } catch (DynamoDbException $e) {
-            $route->Title = "Something went wrong";
-            $route->View = $_SERVER['DOCUMENT_ROOT'] . '/src/view/views/error.view.php';
-            $route->ErrorMessage = $e->getMessage();
-        }
+        $route->Title = $result;
+        $route->View = $_SERVER['DOCUMENT_ROOT'] . '/src/view/views/booking-confirmed.view.php';
+
         return $route;
     }
 }

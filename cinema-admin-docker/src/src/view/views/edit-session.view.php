@@ -1,4 +1,4 @@
-<div class='col-sm-6'>
+<div class='col'>
     <h1 class="display-1">Edit session</h1>
     <h3>Edit a session</h3>
     <?php $results = CinemaAdmin\Controller\SessionController::get_all_movies(); ?>

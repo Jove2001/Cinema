@@ -2,9 +2,6 @@
     "name": "s3863018/cinema-client",
     "description": "Assignment 3, COSC2639 Cloud Computing, RMIT University",
     "type": "project",
-    "require": {
-        "aws/aws-sdk-php": "^3.269"
-    },
     "autoload": {
         "psr-4": {
             "CinemaClient\\": "src/"

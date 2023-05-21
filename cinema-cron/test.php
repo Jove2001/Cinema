@@ -1,37 +1,15 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require __DIR__ . "/vendor/autoload.php";
 
-// Set the server timezone
-date_default_timezone_set(\CinemaCron\Config\Config::TIME_ZONE);
+use CinemaCron\Config\Config;
 
-// Prevent this process from timing out
-set_time_limit(300);
+$params = http_build_query(
+    [
+        'date' => '2023-05-19'
+    ]
+);
 
-try {
-    $date = date("Y-m-d");
-
-    $dynamoDb = \CinemaCron\DynamoDbConnection::connect();
-
-    // $partiqlStatement = "SELECT * FROM Sessions WHERE #date >= :today";
-    $params = [
-        'TableName' => 'Sessions',
-        'FilterExpression' => '#date >= :date_value',
-        'ExpressionAttributeNames' => ['#date' => 'date'],
-        'ExpressionAttributeValues' => [
-            ':date_value' => [
-                'S' => $date
-            ]
-        ]
-    ];
-
-    $result = $dynamoDb->query($params);
-
-    // $items = $result['Items'];
-
-    var_dump($result);
-} catch (\Aws\DynamoDb\Exception\DynamoDbException $e) {
-    echo "Error executing PartiQL statement: " . $e->getMessage();
-} catch (\Exception $e) {
-    echo "An error occurred: " . $e->getMessage();
-}
+// var_dump($params);
+// exit;
+$result = file_get_contents(Config::DELETE_SESSION . "?date=2023-05-19");

@@ -5,7 +5,7 @@
 
 CinemaClient application
 
-main.view.php 04/04/2023
+main.view.php 21/05/2023
 
 Copyright (c) 2023 Ian McElwaine s3863018@rmit.student.edu.au
 
@@ -75,7 +75,7 @@ as assessment work for COSC2639 Cloud Computing
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/index.php">Book tickets</a>
+                        <a class="nav-link" href="/index.php">Now showing</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/index.php?page=about">About</a>
@@ -98,6 +98,4 @@ as assessment work for COSC2639 Cloud Computing
 
 </html>
 
-<!--
-Dark mode styling with Bootstrap v5.3, https://getbootstrap.com/docs/5.3/getting-started/introduction/ 
--->
+<!-- Dark mode styling with Bootstrap v5.3, https://getbootstrap.com/docs/5.3/getting-started/introduction/ -->

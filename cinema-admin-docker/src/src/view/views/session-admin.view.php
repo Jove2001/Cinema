@@ -1,4 +1,4 @@
-<div class='col-sm-6'>
+<div class='col'>
     <h1 class="display-1">Session Admin</h1>
     <h3>Add a new session</h3>
     <?php $results = CinemaAdmin\Controller\SessionController::get_all_movies(); ?>
@@ -26,7 +26,7 @@
     <p>Select a session time</p>
 </div>
 <br><br>
-<div class='col-sm-6'>
+<div class='col'>
     <h3>Current sessions</h3>
     <table class="table table-striped table-dark">
         <tbody>
@@ -38,7 +38,13 @@
                 echo <<<HTML
                 <tr>
                     <td class="align-middle">
-                        <p>$date - {$sessions[$i]['title']}</p>
+                        <img src="https://image.tmdb.org/t/p/w154/{$sessions[$i]['poster_path']}" alt="movie-poster" class="img-fluid" style="width: 100px;">
+                    </td>
+                    <td class="align-middle">
+                        $date    
+                    </td>
+                    <td class="align-middle">
+                        {$sessions[$i]['title']}
                     </td>
                     <td class="align-middle">
                         <form action="/" method="post">

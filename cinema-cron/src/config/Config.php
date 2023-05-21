@@ -44,4 +44,8 @@ class Config
      * AWS S3 bucket for CinemaCron application
      */
     const AWS_BUCKET = 's3863018-movie-posters';
+
+    const DELETE_SESSION = 'https://fi84g54odk.execute-api.us-east-1.amazonaws.com/default/deleteSession';
+
+    const UPDATE_SESSION = 'https://369yy2lg2j.execute-api.us-east-1.amazonaws.com/default/updateSessions';
 }

@@ -2,7 +2,7 @@
     <div class='col'>
         <h1 class="display-1">Book your tickets</h1>
         <h2><?php echo $_POST['title']; ?></h2>
-        <img src="<?php echo 'https://' . \CinemaClient\Config\Config::AWS_BUCKET . '.s3.amazonaws.com' . $_POST['backdrop_path']; ?>" alt="backdrop_path" class="img-fluid"><br><br>
+        <img src="<?php echo $_POST['backdrop_path']; ?>" alt="backdrop_path" class="img-fluid"><br><br>
         <h4>Your session time: <?php echo date('d M Y', strtotime($_POST['date'])); ?> @ 6:30pm</h4><br>
         <form class="row gy-2 gx-3 align-items-center" action="/" method="POST">
             <div class="col-auto">

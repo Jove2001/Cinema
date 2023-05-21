@@ -1,11 +1,39 @@
 <?php
 
-/**
- * Update the movies database with the latest movie information from TheMovieDb.
- */
+require_once __DIR__ . '/vendor/autoload.php';
 
-date_default_timezone_set('Australia/Melbourne');
+use CinemaCron\Config\Config;
+use CinemaCron\MySqlConnection;
 
+// Set the server timezone
+date_default_timezone_set(Config::TIME_ZONE);
+
+// Prevent this process from timing out
+set_time_limit(300);
+
+// Get the MySQL database connection
+$pdo = (new MySQLConnection())->connect();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Create log file
+$start_time = time();
+// $msg = "Log for movies update run on " . date(DATE_COOKIE) . PHP_EOL;
+// $msg .= "####################################################" . PHP_EOL . PHP_EOL;
+// file_put_contents(__DIR__ . "/logs/update-movies-log-" . $start_time . ".log", $msg,  FILE_APPEND | LOCK_EX);
+
+// Delete movies that are no longer playing
+$sql = <<<SQL
+    DELETE FROM Movies
+    WHERE release_date > CURDATE() + INTERVAL 90 DAY
+SQL;
+
+try {
+    $pdo->exec($sql);
+} catch (PDOException $e) {
+    // file_put_contents(__DIR__ . "/logs/update-movies-log-" . $start_time . ".log", $e->getMessage() . PHP_EOL,  FILE_APPEND | LOCK_EX);
+}
+
+// Get data from The Movie Database API
 $results = array();
 $movies = json_decode(file_get_contents('https://api.themoviedb.org/3/movie/now_playing?api_key=aeb1abd20469a56d7b2bf325cc97c92f&region=AU&page=1'));
 for ($j = 0; $j < sizeof($movies->results); $j++) {
@@ -20,16 +48,6 @@ for ($i = 2; $i <= $no_of_pages; $i++) {
     }
 }
 
-// MySQL server settings
-const USER_NAME = "cinema";
-const PASSWORD = "C1i1n1e1m1a1";
-const DB_NAME = "cinema";
-const PORT = 3306;
-const HOST = "cinema.cgpisnjxybda.us-east-1.rds.amazonaws.com";
-
-$dsn = "mysql:host=" . HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4;port=" . PORT;
-$pdo = new \PDO($dsn, USER_NAME, PASSWORD);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $SQL = <<<SQL
     INSERT INTO Movies (
         adult, 
@@ -81,10 +99,6 @@ $stmt->bindParam(':video', $video);
 $stmt->bindParam(':vote_average', $vote_average);
 $stmt->bindParam(':vote_count', $vote_count);
 
-$start_time = time();
-$msg = "Log for update run on " . date(DATE_COOKIE) . PHP_EOL;
-file_put_contents("/home/ubuntu/cinema-cron/logs/update-errors-" . $start_time . ".log", $msg,  FILE_APPEND | LOCK_EX);
-
 for ($i = 0; $i < sizeof($results); $i++) {
     try {
         $adult = $results[$i]->adult;
@@ -102,9 +116,13 @@ for ($i = 0; $i < sizeof($results); $i++) {
         $vote_average = $results[$i]->vote_average;
         $vote_count = $results[$i]->vote_count;
         $stmt->execute();
+        $msg = "Inserted movie: " . $id . " " . $original_title . PHP_EOL;
+        // file_put_contents(__DIR__ . "/logs/update-movies-log-" . $start_time . ".log", $msg,  FILE_APPEND | LOCK_EX);
     } catch (PDOException $e) {
-        $msg = "Unable to insert movie id: " . $id . " " . $original_title . PHP_EOL;
-        $msg .= $e->getMessage() . PHP_EOL . PHP_EOL;
-        file_put_contents("/home/ubuntu/cinema-cron/logs/update-errors-" . $start_time . ".log", $msg,  FILE_APPEND | LOCK_EX);
+        if (str_contains($e->getMessage(), "Duplicate entry"))
+            $msg = "Duplicate movie: " . $id . " " . $original_title . PHP_EOL;
+        else
+            $msg = "Failed to insert movie" . $id . " " . $original_title . PHP_EOL . $e->getMessage() . PHP_EOL;
+        // file_put_contents(__DIR__ . "/logs/update-movies-log-" . $start_time . ".log", $msg,  FILE_APPEND | LOCK_EX);
     }
 }

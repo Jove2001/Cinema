@@ -2,5 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$cc = new \CinemaClient\CinemaClient();
+use CinemaClient\CinemaClient;
+
+$cc = new CinemaClient();
 $cc->run();

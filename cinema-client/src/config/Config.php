@@ -26,24 +26,9 @@ class Config
     const TIME_ZONE = 'Australia/Melbourne';
 
     /**
-     * Settings for AWS clients
+     * AWS endpoints
      */
-    const AWS_CONFIG = [
-        'region' => 'us-east-1',
-        'version' => 'latest'
-    ];
-
-    /**
-     * AWS S3 bucket for MusicStream application
-     */
-    const AWS_BUCKET = 's3863018-movie-posters';
-
-    /**
-     *  MySQL server settings
-     */
-    const USER_NAME = "cinema";
-    const PASSWORD = "C1i1n1e1m1a1";
-    const DB_NAME = "cinema";
-    const PORT = 3306;
-    const HOST = "cinema.cgpisnjxybda.us-east-1.rds.amazonaws.com";
+    const CLOUD_FRONT = 'https://drjdjxxugb49g.cloudfront.net';
+    const GET_SESSIONS = "https://08wighmdk7.execute-api.us-east-1.amazonaws.com/default/getSessions";
+    const MAKE_BOOKING = "https://5dpcqyrfe8.execute-api.us-east-1.amazonaws.com/default/makeBooking";
 }

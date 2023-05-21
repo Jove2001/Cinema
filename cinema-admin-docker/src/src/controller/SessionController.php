@@ -89,7 +89,7 @@ class SessionController
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $sql = <<<SQL
-            SELECT Sessions.date, Sessions.id, Movies.title
+            SELECT Sessions.date, Sessions.id, Movies.title, Movies.poster_path
             FROM Sessions
             JOIN Movies
             ON Sessions.id = Movies.id
