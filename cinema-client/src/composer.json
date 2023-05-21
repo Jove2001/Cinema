@@ -4,7 +4,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "CinemaClient\\": "src/"
+            "CinemaClient\\": "src/",
+            "CinemaClient\\Config\\" : "src/config",
+            "CinemaClient\\Controller\\" : "src/controller",
+            "CinemaClient\\View\\" : "src/view"
         }
     },
     "authors": [
